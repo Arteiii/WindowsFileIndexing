@@ -39,4 +39,8 @@ File Indexer is a simple command-line utility that allows you to index files on 
 
 ## Release
 
-Visit the [GitHub Releases](https://github.com/yourusername/file-indexer/releases) page to download precompiled binaries for Windows.
+Visit the [GitHub Releases](https://github.com/Arteiii/WindowsFileIndexing/releases) page to download precompiled binaries for Windows.
+
+## License
+
+This project is licensed under the [Apache License 2.0](https://opensource.org/license/apache-2-0/) - see the [LICENSE](LICENSE) file for details.
