@@ -1,17 +1,20 @@
 #pragma once
 
 #include <Windows.h>
+#include <algorithm>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <locale>
-#include <mutex>
+#include <numeric>
 #include <optional>
 #include <sqlite3.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <unordered_map>
 #include <vector>
 #include <wincrypt.h>
