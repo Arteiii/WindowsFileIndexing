@@ -272,7 +272,7 @@ enumerateAndStoreFiles(const std::wstring& directory, SQLiteDB& db)
           std::wcout << L"Hashing file: " << filePath << std::endl;
 
           // Read and hash the file content using the file stream
-          std::wstring fileHash = FileHashGenerator::generateMD5(filePath);
+          std::wstring fileHash = FileHashGenerator::generateMD4(filePath);
 
           // Store file information in the SQLite database
           db.insertRecord(ConvertWStringToUTF8(filePath),

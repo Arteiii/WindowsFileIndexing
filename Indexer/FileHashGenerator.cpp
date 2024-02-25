@@ -9,9 +9,10 @@ FileHashGenerator::generateSHA(const std::wstring& filePath)
 }
 
 std::wstring
-FileHashGenerator::generateMD5(const std::wstring& filePath)
+FileHashGenerator::generateMD4(const std::wstring& filePath)
 {
-  return generateHash(filePath, CALG_MD5);
+  return generateHash(filePath, CALG_MD4);
+}
 }
 
 std::wstring
