@@ -2,18 +2,18 @@
 
 #include "SQLiteDB.h"
 
-SQLiteDB::SQLiteDB(const std::string& dbPath)
-{
+SQLiteDB::SQLiteDB(const std::string& dbPath) {
   int result = sqlite3_open(dbPath.c_str(), &db);
   if (result != SQLITE_OK) {
     throw std::runtime_error("Error opening SQLite database");
   }
 
-  const char* createTableQuery = "CREATE TABLE IF NOT EXISTS Files ("
-                                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                 "path TEXT NOT NULL,"
-                                 "hash TEXT NOT NULL"
-                                 ");";
+  const char* createTableQuery =
+      "CREATE TABLE IF NOT EXISTS Files ("
+      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+      "path TEXT NOT NULL,"
+      "hash TEXT NOT NULL"
+      ");";
 
   result = sqlite3_exec(db, createTableQuery, 0, 0, 0);
   if (result != SQLITE_OK) {
@@ -21,28 +21,25 @@ SQLiteDB::SQLiteDB(const std::string& dbPath)
   }
 }
 
-SQLiteDB::~SQLiteDB()
-{
+SQLiteDB::~SQLiteDB() {
   if (db) {
     sqlite3_close(db);
   }
 }
 
-void
-SQLiteDB::createTable()
-{
-  const std::string query = "CREATE TABLE IF NOT EXISTS Files ("
-                            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                            "path TEXT NOT NULL,"
-                            "hash TEXT NOT NULL);";
+void SQLiteDB::createTable() {
+  const std::string query =
+      "CREATE TABLE IF NOT EXISTS Files ("
+      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+      "path TEXT NOT NULL,"
+      "hash TEXT NOT NULL);";
   executeQuery(query);
 }
 
-void
-SQLiteDB::insertRecord(const std::string& filePath, const std::string& fileHash)
-{
+void SQLiteDB::insertRecord(const std::string& filePath,
+                            const std::string& fileHash) {
   const std::string query =
-    "INSERT OR REPLACE INTO Files (path, hash) VALUES (?, ?);";
+      "INSERT OR REPLACE INTO Files (path, hash) VALUES (?, ?);";
 
   sqlite3_stmt* stmt;
   if (sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
@@ -61,9 +58,8 @@ SQLiteDB::insertRecord(const std::string& filePath, const std::string& fileHash)
   sqlite3_finalize(stmt);
 }
 
-std::vector<std::pair<std::string, std::string>>
-SQLiteDB::searchRecord(const std::string& fileName, const std::string& fileHash)
-{
+std::vector<std::pair<std::string, std::string>> SQLiteDB::searchRecord(
+    const std::string& fileName, const std::string& fileHash) {
   std::vector<std::pair<std::string, std::string>> result;
 
   std::string query = "SELECT path, hash FROM Files WHERE 1";
@@ -86,9 +82,9 @@ SQLiteDB::searchRecord(const std::string& fileName, const std::string& fileHash)
 
   while (sqlite3_step(stmt) == SQLITE_ROW) {
     const char* filePath =
-      reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
+        reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
     const char* fileHash =
-      reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
     result.emplace_back(filePath, fileHash);
   }
 
@@ -97,9 +93,7 @@ SQLiteDB::searchRecord(const std::string& fileName, const std::string& fileHash)
   return result;
 }
 
-void
-SQLiteDB::executeQuery(const std::string& query)
-{
+void SQLiteDB::executeQuery(const std::string& query) {
   if (sqlite3_exec(db, query.c_str(), nullptr, nullptr, nullptr) != SQLITE_OK) {
     throw std::runtime_error("Error executing query: " +
                              std::string(sqlite3_errmsg(db)));
